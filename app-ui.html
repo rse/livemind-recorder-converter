@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+**
+**  Livemind Recorder Converter
+**  Copyright (c) 2021 Dr. Ralf S. Engelschall <rse@engelschall.com>
+**  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
+**
+-->
+<html>
+    <head>
+        <!-- application title -->
+        <title>Livemind Recorder Converter</title>
+
+        <!-- general meta-information -->
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; worker-src 'self' 'unsafe-inline' 'unsafe-eval' blob:;"/>
+
+        <!-- load dependency: FontAwesome -->
+        <link rel="stylesheet" type="text/css" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+        <script type="text/javascript" src="node_modules/@fortawesome/fontawesome-free/js/all.min.js"></script>
+
+        <!-- load dependency: TypoPRO -->
+        <link rel="stylesheet" type="text/css" href="node_modules/typopro-web/web/TypoPRO-SourceSansPro/TypoPRO-SourceSansPro.css">
+        <link rel="stylesheet" type="text/css" href="node_modules/typopro-web/web/TypoPRO-SourceCodePro/TypoPRO-SourceCodePro.css">
+
+        <!-- load application -->
+        <link rel="stylesheet" type="text/css" href="app-ui.css"/>
+        <script type="text/javascript" src="app-ui.js"></script>
+    </head>
+    <body>
+        <div class="ui">
+            <div class="await">
+                <i class="fas fa-arrow-circle-down"></i>
+            </div>
+            <div class="progress">
+                <div class="icon"><i class="fas fa-cog fa-spin"></i></div>
+                <div class="queue">0</div>
+            </div>
+        </div>
+    </body>
+</html>
