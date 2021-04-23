@@ -63,7 +63,7 @@ const ui = {}
         pr.style.display = "block"
         while (queue.length > 0) {
             const path = queue[0]
-            let result = await ui.ipc.invoke("convertFile", path)
+            const result = await ui.ipc.invoke("convertFile", path)
             ui.log.info(`converting ${path} ${result === null ? "succeeded" : "failed (" + result + ")"}`)
             queue.shift()
             qu.innerText = "" + queue.length
