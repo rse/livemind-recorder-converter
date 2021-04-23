@@ -1,5 +1,5 @@
 
-<img src="https://raw.githubusercontent.com/rse/livemind-recorder-convert/master/app-res-icon.png" width="150" align="right" alt=""/>
+<img src="https://raw.githubusercontent.com/rse/livemind-recorder-converter/master/app-res-icon.png" width="150" align="right" alt=""/>
 
 Livemind Recorder Converter
 ===========================
@@ -18,7 +18,7 @@ streams. Just drag a resulting `foo.mov` file onto the user interface of
 **Livemind Recorder Converter** and receive a converted `foo.m4v` file
 back.
 
-The problem is that the recordings of [Livemind
+The problem this utility solves is that the recordings of [Livemind
 Recorder](https://livemind.tv/recorder) are in an uncompressed and
 unusual MPEG-4/SHQ2/PCM32 format and for subsequent processing in video
 playing and cutting applications (except for the special case of Adobe
