@@ -22,9 +22,9 @@ The problem this utility solves is that the recordings of [Livemind
 Recorder](https://livemind.tv/recorder) are in an uncompressed and
 unusual MPEG-4/SHQ2/PCM32 format and for subsequent processing in video
 playing and cutting applications (except for the special case of Adobe
-Premiere) this format is recommended to be first converted into a
+Premiere) it is recommended that this format is first converted into a
 "standard" MPEG-4/AVC/AAC format. **Livemind Recorder Converter** does
-this conversion with the help of an embedded version of the awesome
+this particular fixed conversion with the help of an embedded version of the awesome
 [FFmpeg](https://www.ffmpeg.org/) video/audio processing tool.
 
 Copyright & License
