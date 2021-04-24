@@ -33,26 +33,20 @@ const ui = {}
     ui.log.transports.console.format = "{h}:{i}:{s}.{ms} › [{level}] {text}"
     ui.log.info("ui: starting up")
 
-    /*  delay processing a certain amount of time  */
-    ui.delay = (delay) =>
-        new Promise((resolve) => setTimeout(resolve, delay))
-
-    /*  persistent configuration settings  */
+    /*  IPC connection  */
     ui.ipc = electron.ipcRenderer
 
     /*  ensure the DOM is now finally available  */
-    await new Promise((resolve) => {
-        document.addEventListener("DOMContentLoaded", (event) => {
-            resolve()
-        })
-    })
+    await new Promise((resolve) => { document.addEventListener("DOMContentLoaded", resolve) })
     ui.log.info("ui: DOM ready")
 
+    /*  determine DOM nodes  */
     const UI = document.querySelector(".ui")
     const aw = document.querySelector(".await")
     const pr = document.querySelector(".progress")
     const qu = document.querySelector(".queue")
 
+    /*  queue and process files  */
     const queue = []
     let flushing = false
     const flushQueue = async () => {
@@ -81,6 +75,7 @@ const ui = {}
             flushQueue()
     }
 
+    /*  allow user interface to be clicked for opening file selection dialog  */
     UI.addEventListener("click", async (event) => {
         event.preventDefault()
         event.stopPropagation()
@@ -90,6 +85,7 @@ const ui = {}
                 queueFile(file)
     })
 
+    /*  allow files to be dropped onto user interface  */
     document.addEventListener("drop", (event) => {
         event.preventDefault()
         event.stopPropagation()
@@ -108,9 +104,6 @@ const ui = {}
         event.preventDefault()
         event.stopPropagation()
     })
-
-    /*  finally signal main thread we are ready  */
-    ui.log.info("ui: UI ready")
 })().catch((err) => {
     ui.log.error(`ui: ERROR: ${err}`)
 })

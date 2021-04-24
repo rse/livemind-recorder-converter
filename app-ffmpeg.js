@@ -28,19 +28,24 @@ module.exports = class FFmpeg {
                 .replace("app.asar", "app.asar.unpacked"))
         else
             throw new Error(`operating system platform ${os.platform()} not supported`)
+
+        /*  take options  */
         this.options = Object.assign({}, {
             ffmpeg: ffmpeg,
             log:    (msg) => {}
         }, options)
     }
     exec (...args) {
-        const argv = args.map((arg) => {
+        /*  generate shell-style arguments string  */
+        const argsShell = args.map((arg) => {
             if (arg.match(/\s/))
                 return `"${arg.replace(/[""]/g, "\"")}"`
             else
                 return arg
         }).join(" ")
-        this.options.log(`executing: ${this.options.ffmpeg} ${argv}`)
+        this.options.log(`executing: ${this.options.ffmpeg} ${argsShell}`)
+
+        /*  execute command  */
         return execa(this.options.ffmpeg, args)
     }
 }

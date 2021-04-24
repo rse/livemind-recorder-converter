@@ -13,6 +13,7 @@ html, body {
     font-family:      "TypoPRO Source Sans Pro";
 }
 
+/*  user interface styling  */
 .ui {
     background-color: #336699;
     font-size:        80vh;

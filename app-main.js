@@ -210,16 +210,6 @@ const app = electron.app
         const menu = electron.Menu.buildFromTemplate(menuTemplate)
         electron.Menu.setApplicationMenu(menu)
 
-        /*  react on implicit window close  */
-        app.win.on("closed", () => {
-            app.quit()
-        })
-
-        /*  react on all windows closed  */
-        app.on("window-all-closed", () => {
-            app.quit()
-        })
-
         /*  handle window minimize functionality  */
         let minimized = false
         app.win.on("minimize", () => { minimized = true  })
@@ -243,6 +233,17 @@ const app = electron.app
         }
         app.win.on("move", () => {
             updateBounds()
+        })
+
+        /*  handle application termination  */
+        app.win.on("closed", () => {
+            app.quit()
+        })
+        app.on("window-all-closed", () => {
+            app.quit()
+        })
+        app.on("will-quit", () => {
+            app.log.info("main: terminating")
         })
     })
 })().catch((err) => {
