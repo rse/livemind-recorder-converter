@@ -16,7 +16,7 @@
         "electron-builder":              "22.10.5",
         "shelljs":                       "0.8.4",
         "glob":                          "7.1.6",
-        "eslint":                        "7.24.0",
+        "eslint":                        "7.25.0",
         "eslint-config-standard":        "16.0.2",
         "eslint-plugin-promise":         "4.3.1",
         "eslint-plugin-import":          "2.22.1",
@@ -36,6 +36,7 @@
         "typopro-web":                   "4.2.5"
     },
     "main":                              "./app-main.js",
+    "upd":                               [ "!eslint-plugin-promise" ],
     "build": {
         "appId":                         "com.engelschall.apps.lrc",
         "asar":                          true,
