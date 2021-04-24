@@ -118,7 +118,7 @@ const app = electron.app
         /*  provide generic function bridge for renderer  */
         app.ipc.handle("selectFiles", async (event) => {
             return electron.dialog.showOpenDialog({
-                title:       "Choose Video Files",
+                title:       "Choose Livemind Recorder Output Files",
                 properties:  [ "openFile", "multiSelections" ],
                 filters:     [ { name: "MOV", extensions: [ "mov" ] } ]
             }).then((result) => {
