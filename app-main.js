@@ -237,7 +237,6 @@ const app = electron.app
             app.y = bounds.y
             store.set("window-x", app.x)
             store.set("window-y", app.y)
-            app.log.info("POS", app.x, app.y)
         }
         app.win.on("move", () => {
             updateBounds()
