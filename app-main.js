@@ -22,9 +22,6 @@ if (typeof process.env.DEBUG !== "undefined")
 else
     process.noDeprecation = true
 
-/*  initialize store  */
-const store = new Store()
-
 /*  enter an asynchronous environment in main process  */
 const app = electron.app
 ;(async () => {
@@ -52,6 +49,13 @@ const app = electron.app
     app.log.debug(`(persistent log under ${app.log.transports.file.getFile()})`)
     app.log.info("main: starting up")
 
+    /*  redirect exception error boxes to the console  */
+    electron.dialog.showErrorBox = (title, content) =>
+        app.log.info(`main: UI: exception: ${title}: ${content}`)
+
+    /*  initialize store  */
+    const store = new Store()
+
     /*  start startup procedure once Electron is ready  */
     app.on("ready", async () => {
         /*  establish settings and their default values  */
@@ -62,15 +66,15 @@ const app = electron.app
             (because if external dispays are used, they can be no longer connected)  */
         const visible = electron.screen.getAllDisplays().some((display) => {
             return (
-                app.x >= display.bounds.x
-                && app.y >= display.bounds.y
+                app.x            >= display.bounds.x
+                && app.y         >= display.bounds.y
                 && app.x + app.w <= display.bounds.x + display.bounds.width
                 && app.y + app.h <= display.bounds.y + display.bounds.height
             )
         })
         if (!visible) {
-            app.x = 200
-            app.y = 200
+            app.x = 100
+            app.y = 100
         }
 
         /*  save back the settings once at startup  */
@@ -115,7 +119,7 @@ const app = electron.app
             return result
         })
 
-        /*  provide generic function bridge for renderer  */
+        /*  provide function to UI: select files with native dialog  */
         app.ipc.handle("selectFiles", async (event) => {
             return electron.dialog.showOpenDialog({
                 title:       "Choose Livemind Recorder Output Files",
@@ -130,12 +134,7 @@ const app = electron.app
             })
         })
 
-        /*  redirect exception error boxes to the console  */
-        electron.dialog.showErrorBox = (title, content) => {
-            app.log.info(`main: UI: exception: ${title}: ${content}`)
-        }
-
-        /*  create application window  */
+        /*  create user interface window  */
         app.win = new electron.BrowserWindow({
             icon:            path.join(__dirname, "app-res-icon.png"),
             backgroundColor: "#336699",
@@ -149,6 +148,10 @@ const app = electron.app
             height:          200,
             minWidth:        200,
             minHeight:       200,
+            closable:        true,
+            minimizable:     true,
+            maximizable:     false,
+            fullscreenable:  false,
             resizable:       false,
             webPreferences: {
                 devTools:                   (typeof process.env.DEBUG !== "undefined"),
@@ -194,31 +197,15 @@ const app = electron.app
                     { role: "quit" }
                 ]
             }, {
-                label: "Edit",
-                submenu: [
-                    { role: "cut" },
-                    { role: "copy" },
-                    { role: "paste" }
-                ]
-            }, {
                 role: "window",
                 submenu: [
                     { role: "minimize" },
-                    { role: "zoom" },
-                    { role: "togglefullscreen" },
                     { role: "front" }
                 ]
-            }, {
-                role: "help"
             }
         ]
         const menu = electron.Menu.buildFromTemplate(menuTemplate)
         electron.Menu.setApplicationMenu(menu)
-
-        /*  react on explicit window close  */
-        app.ipc.handle("quit", (event) => {
-            app.quit()
-        })
 
         /*  react on implicit window close  */
         app.win.on("closed", () => {
@@ -232,12 +219,8 @@ const app = electron.app
 
         /*  handle window minimize functionality  */
         let minimized = false
-        app.win.on("minimize", () => {
-            minimized = true
-        })
-        app.win.on("restore", () => {
-            minimized = false
-        })
+        app.win.on("minimize", () => { minimized = true  })
+        app.win.on("restore",  () => { minimized = false })
         app.ipc.handle("minimize", (event) => {
             if (minimized) {
                 app.win.restore()
@@ -247,23 +230,6 @@ const app = electron.app
                 app.win.minimize()
         })
 
-        /*  handle window maximize functionality  */
-        let maximized = false
-        app.win.on("maximize", () => {
-            maximized = true
-            app.win.webContents.send("maximized", true)
-        })
-        app.win.on("unmaximize", () => {
-            maximized = false
-            app.win.webContents.send("maximized", false)
-        })
-        app.ipc.handle("maximize", (event) => {
-            if (maximized)
-                app.win.unmaximize()
-            else
-                app.win.maximize()
-        })
-
         /*  track application window changes  */
         const updateBounds = () => {
             const bounds = app.win.getBounds()
@@ -271,6 +237,7 @@ const app = electron.app
             app.y = bounds.y
             store.set("window-x", app.x)
             store.set("window-y", app.y)
+            app.log.info("POS", app.x, app.y)
         }
         app.win.on("move", () => {
             updateBounds()
