@@ -69,10 +69,10 @@ const app = electron.app
             (because if external dispays are used, they can be no longer connected)  */
         const visible = electron.screen.getAllDisplays().some((display) => {
             return (
-                app.x            >= display.bounds.x
-                && app.y         >= display.bounds.y
-                && app.x + app.w <= display.bounds.x + display.bounds.width
-                && app.y + app.h <= display.bounds.y + display.bounds.height
+                app.x          >= display.bounds.x
+                && app.y       >= display.bounds.y
+                && app.x + 200 <= display.bounds.x + display.bounds.width
+                && app.y + 200 <= display.bounds.y + display.bounds.height
             )
         })
         if (!visible) {
