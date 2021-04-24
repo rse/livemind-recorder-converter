@@ -17,8 +17,11 @@ const Store        = require("electron-store")
 const FFmpeg       = require("./app-ffmpeg")
 
 /*  control run-time debugging (increase tracing or even avoid warnings)  */
-if (typeof process.env.DEBUG !== "undefined")
+if (typeof process.env.DEBUG !== "undefined") {
     process.traceProcessWarnings = true
+    delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS
+    process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
+}
 else
     process.noDeprecation = true
 
