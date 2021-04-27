@@ -1,7 +1,7 @@
 {
     "name":                              "Livemind-Recorder-Converter",
     "homepage":                          "https://github.com/rse/livemind-recorder-converter",
-    "version":                           "0.9.1",
+    "version":                           "0.9.2",
     "description":                       "Converter Output Files of Livemind Recorder",
     "keywords":                          [ "livemind", "recorder", "convert", "output" ],
     "license":                           "GPL-3.0-only",
