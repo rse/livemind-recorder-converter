@@ -95,7 +95,7 @@ const app = electron.app
                     - the two steps have to be done to circumvent conversion problems
                     - the 96Kbit/s bitrate provides a rather good audio quality for AAC  */
                 await ffmpeg.exec("-v", "error", "-i", filename,
-                    "-vn", "-c:a", "pcm_f32le", "-y", `${basename}-tmp-audio.wav`)
+                    "-vn", "-c:a", "pcm_f32le", "-filter:a", "volume=20dB", "-y", `${basename}-tmp-audio.wav`)
                 await ffmpeg.exec("-v", "error", "-i", `${basename}-tmp-audio.wav`,
                     "-c:a", "aac", "-b:a", "96k", "-y", `${basename}-tmp-audio.m4a`)
                 await fs.promises.unlink(`${basename}-tmp-audio.wav`)
